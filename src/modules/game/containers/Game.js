@@ -22,7 +22,7 @@ import areaData from '../../../data/areaData';
 import 'react-toastify/dist/ReactToastify.css';
 import css from '../css/game.module.scss';
 
-const Game = ({ setUiMode }) => {
+const Game = ({ setUiMode, userAddress }) => {
     const [areaState, setAreaState] = React.useState(areaData);
     const [itemsState, setItemsState] = React.useState(itemData);
     // const invCheat = [
@@ -44,7 +44,7 @@ const Game = ({ setUiMode }) => {
     const [dialogueOpenSign, setDialogueOpenSign] = React.useState('');
     const [teleporterOpen, setTeleporterOpen] = React.useState(false);
     const [score, setScore] = React.useState(0);
-    const startingPos = {x: 7, y: 6, z: 0, f: 'e', s: 0};
+    const startingPos = { x: 7, y: 6, z: 0, f: 'e', s: 0 };
     const [playerPos, setPlayerPos] = React.useState(startingPos);
     const initTeleportSpots = [
         {
@@ -75,19 +75,19 @@ const Game = ({ setUiMode }) => {
         setTeleportSpots(initTeleportSpots);
     };
     const checkMovement = (spot, dir) => {
-        if (!spot.walls[dir]){
+        if (!spot.walls[dir]) {
             return true;
         }
         const wallType = spot.walls[dir].objType;
         return objTypes.wallTypes[wallType].passable;
     };
     const calcXPos = (x, y, centered, centerW, centerH, gameScale) => {
-        const tileWidth=40 * gameScale;
+        const tileWidth = 40 * gameScale;
         const centeredOffset = (centered) ? tileWidth / 2 : 0;
         return x * tileWidth / 2 - y * tileWidth / 2 + (gridMaxX * tileWidth / 2) + centeredOffset - centerW / 2;
     };
     const calcYPos = (x, y, centered, centerW, centerH, gameScale) => {
-        const tileHeight=20 * gameScale;
+        const tileHeight = 20 * gameScale;
         const centeredOffset = (centered) ? tileHeight / 2 : 0;
         return x * tileHeight / 2 + y * tileHeight / 2 + (tileHeight * 2) + centeredOffset - centerH;
     };
@@ -109,12 +109,12 @@ const Game = ({ setUiMode }) => {
     const playerPostRealY = vwUnit * (calcYPos(playerPos.x, playerPos.y, false, 0, 0, gameScale) + 10 * gameScale);
 
     const globalOffsetX = (window.innerWidth / 2 - playerPostRealX);
-    const globalOffsetY = (window.innerHeight / 2- playerPostRealY);
+    const globalOffsetY = (window.innerHeight / 2 - playerPostRealY);
 
     const getItem = (x, y, z) => {
         const ids = Object.keys(itemsState[z]);
-        const foundId = ids.find((id) => itemsState[z][id].x === x && itemsState[z][id].y === y );
-        if (foundId){
+        const foundId = ids.find((id) => itemsState[z][id].x === x && itemsState[z][id].y === y);
+        if (foundId) {
             return itemsState[z][foundId];
         }
         return null;
@@ -124,7 +124,7 @@ const Game = ({ setUiMode }) => {
     };
     const itemOnSpot = getItem(playerPos.x, playerPos.y, playerPos.z);
     const changePlayerPosition = (dx, dy, dz) => {
-        if ((numNoodles === maxNoodles) || inTransition !== '' || dialogueOpenNpc !== '' || dialogueOpenSign !== ''){
+        if ((numNoodles === maxNoodles) || inTransition !== '' || dialogueOpenNpc !== '' || dialogueOpenSign !== '') {
             return;
         }
         let validMove = true;
@@ -132,34 +132,34 @@ const Game = ({ setUiMode }) => {
             setPlayerAnim(true);
         }
         if (dz === 0) {
-            const currentSpot =  getSpot(playerPos.x, playerPos.y, playerPos.z);
+            const currentSpot = getSpot(playerPos.x, playerPos.y, playerPos.z);
             const nextSpot = getSpot(playerPos.x + dx, playerPos.y + dy, playerPos.z + dz);
             const nextItem = getItem(playerPos.x + dx, playerPos.y + dy, playerPos.z + dz);
             const nextX = playerPos.x + dx;
             const nextY = playerPos.y + dy;
             // const nextZ = playerPos.z + dz;
-            if (nextItem && !objTypes.itemTypes[nextItem.objType].passable){
+            if (nextItem && !objTypes.itemTypes[nextItem.objType].passable) {
                 validMove = false;
             }
-            if ((nextX < 0 || nextY < 0)){
+            if ((nextX < 0 || nextY < 0)) {
                 validMove = false;
             }
-            if (!nextSpot){
+            if (!nextSpot) {
                 validMove = false;
             } else {
-                if (!objTypes.tileTypes[nextSpot.objType].walkable){
+                if (!objTypes.tileTypes[nextSpot.objType].walkable) {
                     validMove = false;
                 }
-                if ((dy < 0) && ((currentSpot.walls && !checkMovement(currentSpot, 'n')))){
+                if ((dy < 0) && ((currentSpot.walls && !checkMovement(currentSpot, 'n')))) {
                     validMove = false;
                 }
-                if ((dy > 0) && ((nextSpot.walls && !checkMovement(nextSpot, 'n')))){
+                if ((dy > 0) && ((nextSpot.walls && !checkMovement(nextSpot, 'n')))) {
                     validMove = false;
                 }
-                if ((dx < 0) && ((currentSpot.walls && !checkMovement(currentSpot, 'w')))){
+                if ((dx < 0) && ((currentSpot.walls && !checkMovement(currentSpot, 'w')))) {
                     validMove = false;
                 }
-                if ((dx > 0) && ((nextSpot.walls && !checkMovement(nextSpot, 'w')))){
+                if ((dx > 0) && ((nextSpot.walls && !checkMovement(nextSpot, 'w')))) {
                     validMove = false;
                 }
                 if ((dz > 0) && currentSpot.objType !== 'stairs-up') {
@@ -173,17 +173,17 @@ const Game = ({ setUiMode }) => {
         }
         const f = (dz === 0) ? calcPlayerFacing(dx, dy) : playerPos.f;
         const s = (playerPos.s === 0) ? 1 : 0;
-        if (validMove){
+        if (validMove) {
             const x = playerPos.x + dx;
             const y = playerPos.y + dy;
             const z = playerPos.z + dz;
             // look for NPC "items"
-            const itemOnSpot = getItem(x,y,z);
-            if (itemOnSpot && objTypes.itemTypes[itemOnSpot.objType].action === 'talk'){
+            const itemOnSpot = getItem(x, y, z);
+            if (itemOnSpot && objTypes.itemTypes[itemOnSpot.objType].action === 'talk') {
                 setDialogueOpenNpc(itemOnSpot.objType);
             }
-            if (itemOnSpot && objTypes.itemTypes[itemOnSpot.objType].action === 'sign'){
-                if (itemOnSpot.special){
+            if (itemOnSpot && objTypes.itemTypes[itemOnSpot.objType].action === 'sign') {
+                if (itemOnSpot.special) {
                     setDialogueOpenSign(itemOnSpot.special);
                 }
             }
@@ -223,7 +223,7 @@ const Game = ({ setUiMode }) => {
             })
         }
     };
-    if (itemOnSpot && (objTypes.itemTypes[itemOnSpot.objType].action === 'teleport')){
+    if (itemOnSpot && (objTypes.itemTypes[itemOnSpot.objType].action === 'teleport')) {
         const bits = itemOnSpot.special.split(',');
         if (bits.length === 3) {
             setPlayerAnim(false);
@@ -256,21 +256,21 @@ const Game = ({ setUiMode }) => {
     };
     React.useEffect(() => {
         const keyPressHandler = (e) => {
-            if (inTransition !== '' || dialogueOpenNpc !== '' || dialogueOpenSign !== ''){
+            if (inTransition !== '' || dialogueOpenNpc !== '' || dialogueOpenSign !== '') {
                 return;
             }
-            switch(e.keyCode){
+            switch (e.keyCode) {
                 case 87:
-                    changePlayerPosition(0,-1, 0);
+                    changePlayerPosition(0, -1, 0);
                     break;
                 case 65:
-                    changePlayerPosition(0,1, 0);
+                    changePlayerPosition(0, 1, 0);
                     break;
                 case 81:
-                    changePlayerPosition(-1,0, 0);
+                    changePlayerPosition(-1, 0, 0);
                     break;
                 case 83:
-                    changePlayerPosition(1,0, 0);
+                    changePlayerPosition(1, 0, 0);
                     break;
                 case 32:
                 case 9:
@@ -287,10 +287,10 @@ const Game = ({ setUiMode }) => {
     });
     // AVAILABLE ACTIONS
     const dirs = [
-        {lbl: 'n', dx: 0, dy: 0, idx: 0, idy: -1},
-        {lbl: 'w', dx: 0, dy: 0, idx: -1, idy: 0},
-        {lbl: 's', dx: 0, dy: 1, idx: 0, idy: 1},
-        {lbl: 'e', dx: 1, dy: 0, idx: 1, idy: 0},
+        { lbl: 'n', dx: 0, dy: 0, idx: 0, idy: -1 },
+        { lbl: 'w', dx: 0, dy: 0, idx: -1, idy: 0 },
+        { lbl: 's', dx: 0, dy: 1, idx: 0, idy: 1 },
+        { lbl: 'e', dx: 1, dy: 0, idx: 1, idy: 0 },
     ];
     let availableActions = dirs.map(dir => {
         const tmpSpot = getSpot(playerPos.x + dir.dx, playerPos.y + dir.dy, playerPos.z);
@@ -299,10 +299,10 @@ const Game = ({ setUiMode }) => {
         const validByItems = (!nextItem || (nextItem && objTypes.itemTypes[nextItem.objType].passable));
 
         if (tmpSpot) {
-            if (validByItems && (dir.lbl === 'n' || dir.lbl === 's') && tmpSpot.walls.n.objType === 'none' && objTypes.tileTypes[tmpSpot.objType].walkable){
+            if (validByItems && (dir.lbl === 'n' || dir.lbl === 's') && tmpSpot.walls.n.objType === 'none' && objTypes.tileTypes[tmpSpot.objType].walkable) {
                 return dir.lbl;
             }
-            if (validByItems && (dir.lbl === 'e' || dir.lbl === 'w') && tmpSpot.walls.w.objType === 'none' && objTypes.tileTypes[tmpSpot.objType].walkable){
+            if (validByItems && (dir.lbl === 'e' || dir.lbl === 'w') && tmpSpot.walls.w.objType === 'none' && objTypes.tileTypes[tmpSpot.objType].walkable) {
                 return dir.lbl;
             }
         }
@@ -318,7 +318,7 @@ const Game = ({ setUiMode }) => {
         const dir = (dz > 0) ? 'u' : 'd';
         setInTransition(dir);
         let timer = setTimeout(() => {
-            changePlayerPosition(0,0,dz);
+            changePlayerPosition(0, 0, dz);
             timer = setTimeout(() => {
                 setInTransition('');
             }, 600);
@@ -333,7 +333,7 @@ const Game = ({ setUiMode }) => {
         setInventory(inventory.filter(item => item.id !== objId));
     };
     const addItemToInventory = (item) => {
-        setInventory( inv => [...inv, item]);
+        setInventory(inv => [...inv, item]);
     };
     const removeItemFromItems = (objId) => {
         const floor = {
@@ -375,7 +375,7 @@ const Game = ({ setUiMode }) => {
         setBlinkNum(nextBlinkNum);
     };
     const handleAction = () => {
-        if (!itemOnSpot || inTransition !== '' || dialogueOpenNpc !== '' || dialogueOpenSign !== ''){
+        if (!itemOnSpot || inTransition !== '' || dialogueOpenNpc !== '' || dialogueOpenSign !== '') {
             return;
         }
         const itemType = objTypes.itemTypes[itemOnSpot.objType];
@@ -384,11 +384,29 @@ const Game = ({ setUiMode }) => {
         switch (action) {
             case 'take':
                 takeItem(itemOnSpot);
-                toast('You took the item. It is now available in your inventory.');
+                toast('You took the item. Please accept it in your wallet.');
                 startBlink(playerPos.x, playerPos.y, `blink-${objId}`);
+                fetch(`https://metaloot-cloud-d4ec.shuttle.app/api/${userAddress}/mint`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "itemName": "Magical Key",
+                        "itemType": "Key",
+                        "attributes": {
+                            "key": "Unlock",
+                            "value": "100%"
+                        },
+                        "thumpNail": "https://tzqzzuafkobkhygtccse.supabase.co/storage/v1/object/public/biz_touch/crypto-ql/Image%2011.jpeg"
+                    })
+                })
+                    .catch(err => {
+                        console.error('Error minting:', err);
+                    });
                 break;
             case 'consume':
-                if (itemOnSpot.objType.includes('coins')){
+                if (itemOnSpot.objType.includes('coins')) {
                     incrementScore(itemType.value);
                     toast('More stars = more points!');
                     startBlink(playerPos.x, playerPos.y, `blink-consume-${objId}`);
@@ -410,8 +428,8 @@ const Game = ({ setUiMode }) => {
 
     const changeWallType = (x, y, z, dir, objType) => {
         const floor = areaState[z].map(area => {
-            if (area.x === x && area.y === y){
-                if (dir === 'n'){
+            if (area.x === x && area.y === y) {
+                if (dir === 'n') {
                     return {
                         ...area,
                         "walls": {
@@ -447,11 +465,11 @@ const Game = ({ setUiMode }) => {
     };
     const getAdjacentItemOfType = (objType) => {
         const dirs = [
-            { dx: 0, dy: 0},
-            { dx: 0, dy: 1},
-            { dx: 1, dy: 0},
-            { dx: 0, dy: -1},
-            { dx: -1, dy: 0},
+            { dx: 0, dy: 0 },
+            { dx: 0, dy: 1 },
+            { dx: 1, dy: 0 },
+            { dx: 0, dy: -1 },
+            { dx: -1, dy: 0 },
         ];
         let itemFound = null;
         dirs.map((dir) => {
@@ -482,16 +500,16 @@ const Game = ({ setUiMode }) => {
 
     const handleInventoryClick = (objType) => {
         dummyBtn.current.focus(); // programmatically force inventory buttons to not receive focus
-        if (numNoodles === maxNoodles){
+        if (numNoodles === maxNoodles) {
             return;
         }
         const usedItem = inventory.find((item) => item.objType === objType);
-        if (objTypes.itemTypes[objType] && objTypes.itemTypes[objType].invAction){
+        if (objTypes.itemTypes[objType] && objTypes.itemTypes[objType].invAction) {
             const invAction = objTypes.itemTypes[objType].invAction;
             const invObj = objTypes.itemTypes[objType];
             const objId = usedItem.id;
-            const currentSpot =  getSpot(playerPos.x, playerPos.y, playerPos.z);
-            switch(invAction.actionType){
+            const currentSpot = getSpot(playerPos.x, playerPos.y, playerPos.z);
+            switch (invAction.actionType) {
                 case "fill-bowl":
                     const bowl = getAdjacentItemOfType('bowl');
                     if (bowl) {
@@ -500,7 +518,7 @@ const Game = ({ setUiMode }) => {
                         setNumNoodles(numNoodles + 1);
                         const numLeft = maxNoodles - (numNoodles + 1);
                         incrementScore(invAction.value);
-                        if (numLeft > 0){
+                        if (numLeft > 0) {
                             toast(`Put the noodles in the bowl. Nearly lunch time. Just ${numLeft} more to go!`);
                         } else {
                             toast('You did it! Time for noodles!');
@@ -510,7 +528,7 @@ const Game = ({ setUiMode }) => {
                 case "clear":
                     const itemToClear = getAdjacentItemOfType(invAction.objectToClear);
                     if (itemToClear) {
-                        if (invAction.actionConsumable){
+                        if (invAction.actionConsumable) {
                             removeItemFromInventoryAndFromItems(objId, itemToClear.id);
                         } else {
                             removeItemFromItems(itemToClear.id);
@@ -531,8 +549,8 @@ const Game = ({ setUiMode }) => {
                         const inv = inventory.filter(item => item.id !== objId);
                         const itemCopy = {
                             ...salmon,
-                            x:-1,
-                            y:-1,
+                            x: -1,
+                            y: -1,
                         }
                         inv.push(itemCopy);
                         setInventory(inv);
@@ -542,32 +560,32 @@ const Game = ({ setUiMode }) => {
                     break;
                 case 'door':
                     // Find a door near the player
-                    const currentSpotS =  getSpot(playerPos.x, playerPos.y + 1, playerPos.z);
-                    const currentSpotE =  getSpot(playerPos.x + 1, playerPos.y, playerPos.z);
+                    const currentSpotS = getSpot(playerPos.x, playerPos.y + 1, playerPos.z);
+                    const currentSpotE = getSpot(playerPos.x + 1, playerPos.y, playerPos.z);
                     const newObjType = `door${invAction.special}open`;
 
-                    if (currentSpot.walls.n.objType === `door${invAction.special}`){
+                    if (currentSpot.walls.n.objType === `door${invAction.special}`) {
                         changeWallType(playerPos.x, playerPos.y, playerPos.z, 'n', newObjType);
                         incrementScore(invObj.value);
-                        if (invAction.actionConsumable){
+                        if (invAction.actionConsumable) {
                             removeItemFromInventory(objId);
                         }
                     } else if (currentSpot.walls.w.objType === `door${invAction.special}`) {
                         changeWallType(playerPos.x, playerPos.y, playerPos.z, 'w', newObjType);
                         incrementScore(invObj.value);
-                        if (invAction.actionConsumable){
+                        if (invAction.actionConsumable) {
                             removeItemFromInventory(objId);
                         }
                     } else if (currentSpotS && currentSpotS.walls.n.objType === `door${invAction.special}`) {
                         changeWallType(playerPos.x, playerPos.y + 1, playerPos.z, 'n', newObjType);
                         incrementScore(invObj.value);
-                        if (invAction.actionConsumable){
+                        if (invAction.actionConsumable) {
                             removeItemFromInventory(objId);
                         }
                     } else if (currentSpotE && currentSpotE.walls.w.objType === `door${invAction.special}`) {
                         changeWallType((playerPos.x + 1), playerPos.y, playerPos.z, 'w', newObjType);
                         incrementScore(invObj.value);
-                        if (invAction.actionConsumable){
+                        if (invAction.actionConsumable) {
                             removeItemFromInventory(objId);
                         }
                     }
@@ -607,15 +625,15 @@ const Game = ({ setUiMode }) => {
     />), [itemIdsLayer1, gameScale, itemsState, numNoodles, playerPos.z]);
 
     const display_tiles = React.useMemo(() =>
-            areaState[playerPos.z].map((item, idx) => <Tile
-                tileData={item}
-                key={idx}
-                calcXPos={calcXPos}
-                calcYPos={calcYPos}
-                calcZPos={calcZPos}
-                objTypes={objTypes}
-                gameScale={gameScale}
-            />)
+        areaState[playerPos.z].map((item, idx) => <Tile
+            tileData={item}
+            key={idx}
+            calcXPos={calcXPos}
+            calcYPos={calcYPos}
+            calcZPos={calcZPos}
+            objTypes={objTypes}
+            gameScale={gameScale}
+        />)
         , [areaState, gameScale, objTypes, playerPos.z]);
 
     return (
@@ -625,8 +643,8 @@ const Game = ({ setUiMode }) => {
                     left: globalOffsetX,
                     top: globalOffsetY,
                 }}>
-                    { display_tiles }
-                    { display_items0 }
+                    {display_tiles}
+                    {display_items0}
                     <Player
                         x={playerPos.x}
                         y={playerPos.y}
@@ -640,7 +658,7 @@ const Game = ({ setUiMode }) => {
                         maxZ={maxZ}
                         playerAnim={playerAnim}
                     />
-                    { display_items1 }
+                    {display_items1}
                     <Blink
                         x={blink1.x}
                         y={blink1.y}
@@ -669,11 +687,11 @@ const Game = ({ setUiMode }) => {
                         blinkHash={blink3.hash}
                     />
                     <div className={`${css.fader} ${inTransition !== '' && css.active}`} style={{
-                        zIndex: (maxZ-2),
-                    }}/>
+                        zIndex: (maxZ - 2),
+                    }} />
                 </div>
             </div>
-            <div className={css.hud} style={{zIndex: maxZ}}>
+            <div className={css.hud} style={{ zIndex: maxZ }}>
                 <HudControls
                     changePlayerPosition={changePlayerPosition}
                     availableActions={availableActions}
@@ -681,14 +699,15 @@ const Game = ({ setUiMode }) => {
                 />
                 <ScoreDisp
                     score={score}
+                    userAddress={userAddress}
                 />
                 <Quit
                     resetGame={resetGame}
                 />
                 <Inventory
-                    inventoryItems = {inventory.sort((a, b) => {
-                        if (a.objType > b.objType) {return 1;}
-                        if (a.objType < b.objType) {return -1;}
+                    inventoryItems={inventory.sort((a, b) => {
+                        if (a.objType > b.objType) { return 1; }
+                        if (a.objType < b.objType) { return -1; }
                         return 0;
                     })}
                     handleInventoryClick={handleInventoryClick}

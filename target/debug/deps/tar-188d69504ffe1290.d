@@ -1,0 +1,12 @@
+/Users/copycoder/Desktop/desktop/web3/production/noodle-quest/target/debug/deps/libtar-188d69504ffe1290.rmeta: /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/lib.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/archive.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/builder.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/entry.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/entry_type.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/error.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/header.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/pax.rs
+
+/Users/copycoder/Desktop/desktop/web3/production/noodle-quest/target/debug/deps/tar-188d69504ffe1290.d: /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/lib.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/archive.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/builder.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/entry.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/entry_type.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/error.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/header.rs /Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/pax.rs
+
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/lib.rs:
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/archive.rs:
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/builder.rs:
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/entry.rs:
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/entry_type.rs:
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/error.rs:
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/header.rs:
+/Users/copycoder/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tar-0.4.43/src/pax.rs:

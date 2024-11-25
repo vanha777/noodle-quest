@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
+    "@tauri-apps/plugin-deep-link": "^2.0.0",
     "react": "^16.13.0",
     "react-confetti": "^5.0.1",
     "react-dom": "^16.13.0",
